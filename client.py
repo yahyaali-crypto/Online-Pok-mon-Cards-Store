@@ -7,7 +7,13 @@ server_port = int(sys.argv[2])
 
 # Create a TCP socket and connect to the server
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((server_host, server_port))
+
+try:
+    client_socket.connect((server_host, server_port))
+except ConnectionError:
+    print("Error: Could not connect to the server.")
+    client_socket.close()
+    sys.exit()
 
 # Keep accepting commands until the user quits or shuts down the server
 while True:
@@ -24,6 +30,6 @@ while True:
     # Stop the client after a successful QUIT or SHUTDOWN
     if message.strip().upper() in ["QUIT", "SHUTDOWN"] and response.startswith("200 OK"):
         break
-    
+
 # Close the connection to the server
 client_socket.close()
