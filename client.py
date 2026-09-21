@@ -21,9 +21,9 @@ while True:
     print("Server response:")
     print(response)
 
-    # Stop the client after QUIT or SHUTDOWN
-    if message.strip().upper() in ["QUIT", "SHUTDOWN"]:
+    # Stop the client after a successful QUIT or SHUTDOWN
+    if message.strip().upper() in ["QUIT", "SHUTDOWN"] and response.startswith("200 OK"):
         break
-
+    
 # Close the connection to the server
 client_socket.close()
