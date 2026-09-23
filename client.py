@@ -8,6 +8,7 @@ server_port = int(sys.argv[2])
 # Create a TCP socket and connect to the server
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+# Handle an error if the client cannot connect to the server
 try:
     client_socket.connect((server_host, server_port))
 except ConnectionError:
