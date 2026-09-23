@@ -6,7 +6,7 @@ import socket
 import sqlite3
 import sys
 
-SERVER_PORT = 947    # last 4 digits of UM-ID: 0947
+SERVER_PORT = 1589   # last 4 digits of Zahra's UM-ID (mine is 0947 is a privileged port, <1024, and won't bind on the school server)
 DB_FILE = "pokemon_store.db"
 
 
@@ -110,6 +110,9 @@ def handle_sell(parts, cursor, conn):
     except ValueError:
         return "403 message format error\n"
 
+    if qty <= 0 or price <= 0:
+        return "403 message format error\n"
+
     cursor.execute("SELECT usd_balance FROM Users WHERE ID = ?", (owner_id,))
     user_row = cursor.fetchone()
     if user_row is None:
@@ -147,6 +150,9 @@ def handle_buy(parts, cursor, conn):
         price = float(price_str)
         count = int(count_str)
     except ValueError:
+        return "403 message format error\n"
+
+    if price <= 0 or count <= 0:
         return "403 message format error\n"
 
     cursor.execute("SELECT usd_balance FROM Users WHERE ID = ?", (owner_id,))
@@ -199,8 +205,12 @@ def handle_command(line, cursor, conn):
     elif cmd == "BUY":
         return handle_buy(parts, cursor, conn)
     elif cmd == "QUIT":
+        if len(parts) != 1:
+            return "403 message format error\n"
         return "200 OK\n"
     elif cmd == "SHUTDOWN":
+        if len(parts) != 1:
+            return "403 message format error\n"
         return "200 OK\n"
     else:
         return "400 invalid command\n"
