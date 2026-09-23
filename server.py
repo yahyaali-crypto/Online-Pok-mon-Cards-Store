@@ -6,7 +6,7 @@ import socket
 import sqlite3
 import sys
 
-SERVER_PORT = 1234   # <-- replace with last 4 digits of your UM-ID
+SERVER_PORT = 947    # last 4 digits of UM-ID: 0947
 DB_FILE = "pokemon_store.db"
 
 
@@ -198,6 +198,8 @@ def handle_command(line, cursor, conn):
         return handle_sell(parts, cursor, conn)
     elif cmd == "BUY":
         return handle_buy(parts, cursor, conn)
+    elif cmd == "QUIT":
+        return "200 OK\n"
     elif cmd == "SHUTDOWN":
         return "200 OK\n"
     else:
