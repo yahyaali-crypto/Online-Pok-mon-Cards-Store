@@ -1,3 +1,6 @@
+"""
+CIS427 PA1 - Pokemon Cards Store: CLIENT
+"""
 import socket
 import sys
 
